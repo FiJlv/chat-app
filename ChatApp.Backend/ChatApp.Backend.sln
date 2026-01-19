@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Domain", "ChatApp.Domain\ChatApp.Domain.csproj", "{B7C80729-A374-4F11-90BA-4FC878C0F167}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Application", "ChatApp.Application\ChatApp.Application.csproj", "{0FFA86AB-465A-4DA6-A2BF-241C685957AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Infrastructure", "ChatApp.Infrastructure\ChatApp.Infrastructure.csproj", "{5ED9D48D-C1CB-402F-B85F-FFC255E28639}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Api", "ChatApp.Api\ChatApp.Api.csproj", "{D104F743-0D7E-41D2-BF7F-739B63C3940A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7C80729-A374-4F11-90BA-4FC878C0F167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7C80729-A374-4F11-90BA-4FC878C0F167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7C80729-A374-4F11-90BA-4FC878C0F167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7C80729-A374-4F11-90BA-4FC878C0F167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FFA86AB-465A-4DA6-A2BF-241C685957AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FFA86AB-465A-4DA6-A2BF-241C685957AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FFA86AB-465A-4DA6-A2BF-241C685957AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FFA86AB-465A-4DA6-A2BF-241C685957AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ED9D48D-C1CB-402F-B85F-FFC255E28639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED9D48D-C1CB-402F-B85F-FFC255E28639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED9D48D-C1CB-402F-B85F-FFC255E28639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED9D48D-C1CB-402F-B85F-FFC255E28639}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D104F743-0D7E-41D2-BF7F-739B63C3940A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D104F743-0D7E-41D2-BF7F-739B63C3940A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D104F743-0D7E-41D2-BF7F-739B63C3940A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D104F743-0D7E-41D2-BF7F-739B63C3940A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
