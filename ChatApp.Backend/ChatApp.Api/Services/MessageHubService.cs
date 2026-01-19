@@ -1,8 +1,9 @@
 using ChatApp.Application.DTOs;
 using ChatApp.Application.Interfaces.Services;
+using ChatApp.Api.Hubs;
 using Microsoft.AspNetCore.SignalR;
 
-namespace ChatApp.Infrastructure.Services;
+namespace ChatApp.Api.Services;
 
 public class MessageHubService : IMessageHubService
 {

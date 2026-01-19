@@ -1,3 +1,5 @@
+using ChatApp.Api.Hubs;
+using ChatApp.Api.Services;
 using ChatApp.Application.Interfaces.Repositories;
 using ChatApp.Application.Interfaces.Services;
 using ChatApp.Application.Mappings;
@@ -5,7 +7,6 @@ using ChatApp.Application.Services;
 using ChatApp.Infrastructure.Data;
 using ChatApp.Infrastructure.Data.Repositories;
 using ChatApp.Infrastructure.Data.Seed;
-using ChatApp.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
