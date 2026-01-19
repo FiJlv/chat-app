@@ -11,15 +11,18 @@ public class MessageService : IMessageService
 {
     private readonly IMessageRepository _messageRepository;
     private readonly IChatRepository _chatRepository;
+    private readonly IMessageHubService _messageHubService;
     private readonly IMapper _mapper;
 
     public MessageService(
         IMessageRepository messageRepository,
         IChatRepository chatRepository,
+        IMessageHubService messageHubService,
         IMapper mapper)
     {
         _messageRepository = messageRepository;
         _chatRepository = chatRepository;
+        _messageHubService = messageHubService;
         _mapper = mapper;
     }
 
@@ -73,6 +76,13 @@ public class MessageService : IMessageService
 
         var messageDto = _mapper.Map<MessageDto>(createdMessage);
         messageDto.IsMine = true;
+
+        await _messageHubService.SendMessageToChatAsync(dto.ChatId, messageDto);
+
+        var chatDto = _mapper.Map<ChatDto>(chat);
+        chatDto.LastMessage = messageDto.Content;
+        chatDto.LastMessageAt = messageDto.CreatedAt;
+        await _messageHubService.NotifyChatUpdatedAsync(dto.ChatId, chatDto);
 
         return messageDto;
     }
