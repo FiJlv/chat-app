@@ -8,6 +8,7 @@ using ChatApp.Infrastructure.Data;
 using ChatApp.Infrastructure.Data.Repositories;
 using ChatApp.Infrastructure.Data.Seed;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,16 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IMessageHubService, MessageHubService>();
 
 builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Chat App API",
+        Version = "v1",
+        Description = "API for Chat Application"
+    });
+});
 
 var app = builder.Build();
 
@@ -53,6 +64,11 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat App API v1");
+    });
 }
 
 app.UseHttpsRedirection();
