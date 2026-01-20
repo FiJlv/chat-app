@@ -5,6 +5,7 @@ import { messageApi } from '../../services/api/messageApi';
 import { signalRService } from '../../services/signalR/signalRService';
 import { MessageList } from './MessageList';
 import { MessageInput } from './MessageInput';
+import type { MessageDto } from '../../types/message.types';
 
 export const ChatWindow = () => {
   const { currentChat, messages, setMessages, addMessage, updateChat } = useChat();
@@ -29,27 +30,35 @@ export const ChatWindow = () => {
 
     loadMessages();
 
-    signalRService.joinChat(currentChat.id);
+    const chatId = currentChat.id;
+    signalRService.joinChat(chatId);
 
-    signalRService.onMessageReceived((chatId, message) => {
-      if (chatId === currentChat.id) {
-        addMessage(chatId, message);
+    const handleMessageReceived = (receivedChatId: number, message: MessageDto) => {
+      if (receivedChatId === chatId) {
+        addMessage(receivedChatId, message);
       }
-    });
+    };
 
-    signalRService.onChatUpdated((chatId, lastMessage, lastMessageAt) => {
-      if (chatId === currentChat.id) {
-        updateChat(chatId, {
+    const handleChatUpdated = (
+      updatedChatId: number,
+      lastMessage: string,
+      lastMessageAt: string
+    ) => {
+      if (updatedChatId === chatId) {
+        updateChat(updatedChatId, {
           lastMessage,
           lastMessageAt: lastMessageAt ? new Date(lastMessageAt).toISOString() : undefined,
         });
       }
-    });
+    };
+
+    signalRService.onMessageReceived(handleMessageReceived);
+    signalRService.onChatUpdated(handleChatUpdated);
 
     return () => {
       signalRService.offMessageReceived();
       signalRService.offChatUpdated();
-      signalRService.leaveChat(currentChat.id);
+      signalRService.leaveChat(chatId);
     };
   }, [currentChat?.id, user, setMessages, addMessage, updateChat]);
 

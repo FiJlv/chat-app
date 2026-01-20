@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import type { ChatDto } from '../types/chat.types';
 import type { MessageDto } from '../types/message.types';
@@ -21,29 +21,32 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   const [currentChat, setCurrentChat] = useState<ChatDto | null>(null);
   const [messages, setMessagesState] = useState<Record<number, MessageDto[]>>({});
 
-  const setMessages = (chatId: number, newMessages: MessageDto[]) => {
+  const setMessages = useCallback((chatId: number, newMessages: MessageDto[]) => {
     setMessagesState((prev) => ({
       ...prev,
       [chatId]: newMessages,
     }));
-  };
+  }, []);
 
-  const addMessage = (chatId: number, message: MessageDto) => {
+  const addMessage = useCallback((chatId: number, message: MessageDto) => {
     setMessagesState((prev) => ({
       ...prev,
       [chatId]: [...(prev[chatId] || []), message],
     }));
-  };
+  }, []);
 
-  const updateChat = (chatId: number, updates: Partial<ChatDto>) => {
+  const updateChat = useCallback((chatId: number, updates: Partial<ChatDto>) => {
     setChats((prev) =>
       prev.map((chat) => (chat.id === chatId ? { ...chat, ...updates } : chat))
     );
 
-    if (currentChat?.id === chatId) {
-      setCurrentChat({ ...currentChat, ...updates });
-    }
-  };
+    setCurrentChat((prev) => {
+      if (prev?.id === chatId) {
+        return { ...prev, ...updates };
+      }
+      return prev;
+    });
+  }, []);
 
   return (
     <ChatContext.Provider
