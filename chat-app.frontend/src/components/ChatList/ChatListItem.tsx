@@ -1,3 +1,5 @@
+import { useAuth } from '../../context/AuthContext';
+import { getChatAvatarMember } from '../../utils/chatAvatar';
 import type { ChatDto } from '../../types/chat.types';
 import { formatChatTime } from '../../utils/dateFormatter';
 import heartIcon from '../../assets/icons/heart.svg';
@@ -12,13 +14,22 @@ interface ChatListItemProps {
 }
 
 export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) => {
+  const { user } = useAuth();
+  const avatarMember = getChatAvatarMember(chat, user);
+
   return (
     <div
       className={`chat-list-item ${isSelected ? 'selected' : ''}`}
       onClick={onClick}
     >
       <div className="chat-avatar">
-        <div className="avatar-placeholder"></div>
+        {avatarMember?.avatarUrl ? (
+          <img src={avatarMember.avatarUrl} alt={avatarMember.name || chat.name} />
+        ) : (
+          <div className="avatar-placeholder">
+            {(avatarMember?.name || chat.name).charAt(0)}
+          </div>
+        )}
         {chat.unreadCount > 0 && (
           <span className="unread-badge">{chat.unreadCount}</span>
         )}
@@ -40,7 +51,11 @@ export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) =
       <div className="chat-actions">
         <div className="chat-actions-row">
           <div className="chat-time">{formatChatTime(chat.lastMessageAt)}</div>
-          <button className="action-icon" type="button" aria-label="Favorite">
+          <button 
+            className={`action-icon ${chat.isFavorite ? 'favorite' : ''}`} 
+            type="button" 
+            aria-label="Favorite"
+          >
             <img src={heartIcon} alt="Favorite" />
           </button>
         </div>

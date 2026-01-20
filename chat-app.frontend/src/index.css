@@ -216,14 +216,29 @@ body {
   flex-shrink: 0;
   width: 96px;
   height: 96px;
+  border-radius: 50%;
+  border: 2px solid #00DA7B;
+  overflow: hidden;
+}
+
+.chat-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .avatar-placeholder {
-  width: 96px;
-  height: 96px;
+  width: 100%;
+  height: 100%;
   background-color: #898989;
   border-radius: 50%;
-  border: 2px solid #00DA7B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: #fff;
 }
 
 .chat-info {
@@ -296,6 +311,10 @@ body {
 .action-icon img {
   width: 16px;
   height: 16px;
+}
+
+.action-icon.favorite img {
+  filter: brightness(0) invert(1);
 }
 
 .chat-actions > .action-icon:last-child {

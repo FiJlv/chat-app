@@ -5,6 +5,7 @@ import { messageApi } from '../../services/api/messageApi';
 import { signalRService } from '../../services/signalR/signalRService';
 import { MessageList } from './MessageList';
 import { MessageInput } from './MessageInput';
+import { getChatAvatarMember } from '../../utils/chatAvatar';
 import socialActionIcon from '../../assets/icons/SocialAction.svg';
 import mute2Icon from '../../assets/icons/mute2.svg';
 import socialActionSetIcon from '../../assets/icons/SocialActionsSet.svg';
@@ -93,16 +94,19 @@ export const ChatWindow = () => {
   }
 
   const chatMessages = messages[currentChat.id] || [];
+  const avatarMember = getChatAvatarMember(currentChat, user);
 
   return (
     <div className="chat-window">
       <div className="chat-header">
         <div className="chat-header-left">
           <div className="chat-header-avatar">
-            {currentChat.members.length > 0 && currentChat.members[0].avatarUrl ? (
-              <img src={currentChat.members[0].avatarUrl} alt={currentChat.name} />
+            {avatarMember?.avatarUrl ? (
+              <img src={avatarMember.avatarUrl} alt={avatarMember.name || currentChat.name} />
             ) : (
-              <div className="avatar-placeholder">{currentChat.name.charAt(0)}</div>
+              <div className="avatar-placeholder">
+                {(avatarMember?.name || currentChat.name).charAt(0)}
+              </div>
             )}
           </div>
           <div className="chat-header-text">

@@ -1,7 +1,13 @@
 export const formatChatTime = (dateString?: string): string => {
   if (!dateString) return '';
 
-  const date = new Date(dateString);
+  let date: Date;
+  if (dateString.endsWith('Z') || dateString.includes('+') || dateString.includes('-', 10)) {
+    date = new Date(dateString);
+  } else {
+    date = new Date(dateString + 'Z');
+  }
+
   return date.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
@@ -10,7 +16,13 @@ export const formatChatTime = (dateString?: string): string => {
 };
 
 export const formatMessageTime = (dateString: string): string => {
-  const date = new Date(dateString);
+  let date: Date;
+  if (dateString.endsWith('Z') || dateString.includes('+') || dateString.includes('-', 10)) {
+    date = new Date(dateString);
+  } else {
+    date = new Date(dateString + 'Z');
+  }
+
   return date.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',

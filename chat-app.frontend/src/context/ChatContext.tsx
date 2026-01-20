@@ -29,10 +29,16 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const addMessage = useCallback((chatId: number, message: MessageDto) => {
-    setMessagesState((prev) => ({
-      ...prev,
-      [chatId]: [...(prev[chatId] || []), message],
-    }));
+    setMessagesState((prev) => {
+      const existingMessages = prev[chatId] || [];
+      if (existingMessages.some((msg) => msg.id === message.id)) {
+        return prev;
+      }
+      return {
+        ...prev,
+        [chatId]: [...existingMessages, message],
+      };
+    });
   }, []);
 
   const updateChat = useCallback((chatId: number, updates: Partial<ChatDto>) => {

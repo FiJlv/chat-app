@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { chatApi } from '../../services/api/chatApi';
+import { signalRService } from '../../services/signalR/signalRService';
 import { ChatTabs } from './ChatTabs';
 import { ChatListItem } from './ChatListItem';
 import { SearchBar } from '../SearchBar/SearchBar';
@@ -17,7 +18,7 @@ import {
 } from '../../utils/constants';
 
 export const ChatList = () => {
-  const { chats, setChats, currentChat, setCurrentChat } = useChat();
+  const { chats, setChats, currentChat, setCurrentChat, updateChat } = useChat();
   const { user } = useAuth();
   const [activeFilter, setActiveFilter] = useState<ChatFilter>(CHAT_FILTER_ALL);
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,7 +55,51 @@ export const ChatList = () => {
     };
 
     loadChats();
-  }, [user, activeFilter, searchQuery, setChats]);
+
+    const handleChatUpdated = (
+      chatId: number,
+      lastMessage: string,
+      lastMessageAt: string
+    ) => {
+
+      setChats((prevChats) => {
+        const updatedChats = prevChats.map((chat) => {
+          if (chat.id === chatId) {
+            return {
+              ...chat,
+              lastMessage,
+              lastMessageAt: lastMessageAt ? new Date(lastMessageAt).toISOString() : undefined,
+            };
+          }
+          return chat;
+        });
+
+        const pinned = updatedChats.filter((chat) => chat.isPinned);
+        const unpinned = updatedChats.filter((chat) => !chat.isPinned);
+        
+        const sortByTime = (chatList: typeof updatedChats) => {
+          return [...chatList].sort((a, b) => {
+            const timeA = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0;
+            const timeB = b.lastMessageAt ? new Date(b.lastMessageAt).getTime() : 0;
+            return timeB - timeA;
+          });
+        };
+
+        return [...sortByTime(pinned), ...sortByTime(unpinned)];
+      });
+
+      updateChat(chatId, {
+        lastMessage,
+        lastMessageAt: lastMessageAt ? new Date(lastMessageAt).toISOString() : undefined,
+      });
+    };
+
+    signalRService.onChatUpdated(handleChatUpdated);
+
+    return () => {
+      signalRService.offChatUpdated();
+    };
+  }, [user, activeFilter, searchQuery, setChats, updateChat]);
 
   const handleChatClick = (chatId: number) => {
     const chat = chats.find((c) => c.id === chatId);
@@ -63,12 +108,21 @@ export const ChatList = () => {
     }
   };
 
-  const pinnedChats = chats.filter((chat) => chat.isPinned);
-  const groupChats = chats.filter(
-    (chat) => !chat.isPinned && chat.type === CHAT_TYPE_GROUP
+  const sortChatsByLastMessage = (chatList: typeof chats) => {
+    return [...chatList].sort((a, b) => {
+      const timeA = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0;
+      const timeB = b.lastMessageAt ? new Date(b.lastMessageAt).getTime() : 0;
+      return timeB - timeA;
+    });
+  };
+
+  const sortedChats = sortChatsByLastMessage(chats);
+  const pinnedChats = sortChatsByLastMessage(sortedChats.filter((chat) => chat.isPinned));
+  const groupChats = sortChatsByLastMessage(
+    sortedChats.filter((chat) => !chat.isPinned && chat.type === CHAT_TYPE_GROUP)
   );
-  const friendChats = chats.filter(
-    (chat) => !chat.isPinned && chat.type === CHAT_TYPE_PRIVATE
+  const friendChats = sortChatsByLastMessage(
+    sortedChats.filter((chat) => !chat.isPinned && chat.type === CHAT_TYPE_PRIVATE)
   );
 
   return (

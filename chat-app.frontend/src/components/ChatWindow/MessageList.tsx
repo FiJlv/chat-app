@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { Message } from '../Message/Message';
 import type { MessageDto } from '../../types/message.types';
 
@@ -7,10 +7,12 @@ interface MessageListProps {
 }
 
 export const MessageList = ({ messages }: MessageListProps) => {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messageListRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  useLayoutEffect(() => {
+    if (messageListRef.current && messages.length > 0) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
   }, [messages]);
 
   if (messages.length === 0) {
@@ -22,11 +24,10 @@ export const MessageList = ({ messages }: MessageListProps) => {
   }
 
   return (
-    <div className="message-list">
+    <div className="message-list" ref={messageListRef}>
       {messages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
-      <div ref={messagesEndRef} />
     </div>
   );
 };
