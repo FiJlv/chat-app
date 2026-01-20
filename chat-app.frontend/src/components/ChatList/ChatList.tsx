@@ -5,6 +5,7 @@ import { chatApi } from '../../services/api/chatApi';
 import { ChatTabs } from './ChatTabs';
 import { ChatListItem } from './ChatListItem';
 import { SearchBar } from '../SearchBar/SearchBar';
+import separatorImage from '../../assets/icons/separator_image.svg';
 import type { ChatFilter } from '../../types/chat.types';
 import {
   CHAT_FILTER_ALL,
@@ -63,7 +64,12 @@ export const ChatList = () => {
   };
 
   const pinnedChats = chats.filter((chat) => chat.isPinned);
-  const regularChats = chats.filter((chat) => !chat.isPinned);
+  const groupChats = chats.filter(
+    (chat) => !chat.isPinned && chat.type === CHAT_TYPE_GROUP
+  );
+  const friendChats = chats.filter(
+    (chat) => !chat.isPinned && chat.type === CHAT_TYPE_PRIVATE
+  );
 
   return (
     <div className="chat-list">
@@ -76,9 +82,13 @@ export const ChatList = () => {
           <div className="loading">Loading chats...</div>
         ) : (
           <>
+
             {pinnedChats.length > 0 && (
               <div className="chat-section">
-                <div className="section-title">Pinned Chats</div>
+                <div className="section-separator">
+                  <span className="section-title">Pinned Chats</span>
+                  <img src={separatorImage} alt="" className="separator-icon" />
+                </div>
                 {pinnedChats.map((chat) => (
                   <ChatListItem
                     key={chat.id}
@@ -90,16 +100,30 @@ export const ChatList = () => {
               </div>
             )}
 
-            {regularChats.length > 0 && (
+            {groupChats.length > 0 && (
               <div className="chat-section">
-                <div className="section-title">
-                  {activeFilter === CHAT_FILTER_GROUPS
-                    ? 'Group Chats'
-                    : activeFilter === CHAT_FILTER_FRIENDS
-                    ? 'Friend Chats'
-                    : 'Chats'}
+                <div className="section-separator">
+                  <span className="section-title">Group Chats</span>
+                  <img src={separatorImage} alt="" className="separator-icon" />
                 </div>
-                {regularChats.map((chat) => (
+                {groupChats.map((chat) => (
+                  <ChatListItem
+                    key={chat.id}
+                    chat={chat}
+                    isSelected={currentChat?.id === chat.id}
+                    onClick={() => handleChatClick(chat.id)}
+                  />
+                ))}
+              </div>
+            )}
+
+            {friendChats.length > 0 && (
+              <div className="chat-section">
+                <div className="section-separator">
+                  <span className="section-title">Friend</span>
+                  <img src={separatorImage} alt="" className="separator-icon" />
+                </div>
+                {friendChats.map((chat) => (
                   <ChatListItem
                     key={chat.id}
                     chat={chat}

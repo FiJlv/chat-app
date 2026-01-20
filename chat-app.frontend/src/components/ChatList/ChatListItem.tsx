@@ -1,5 +1,9 @@
 import type { ChatDto } from '../../types/chat.types';
 import { formatChatTime } from '../../utils/dateFormatter';
+import heartIcon from '../../assets/icons/heart.svg';
+import muteIcon from '../../assets/icons/mute.svg';
+import pinIcon from '../../assets/icons/Pin.svg';
+import threeDotIcon from '../../assets/icons/ThreeDotMenu.svg';
 
 interface ChatListItemProps {
   chat: ChatDto;
@@ -14,22 +18,14 @@ export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) =
       onClick={onClick}
     >
       <div className="chat-avatar">
-        {chat.members.length > 0 && chat.members[0].avatarUrl ? (
-          <img src={chat.members[0].avatarUrl} alt={chat.name} />
-        ) : (
-          <div className="avatar-placeholder">{chat.name.charAt(0)}</div>
-        )}
+        <div className="avatar-placeholder"></div>
         {chat.unreadCount > 0 && (
           <span className="unread-badge">{chat.unreadCount}</span>
         )}
       </div>
       
       <div className="chat-info">
-        <div className="chat-header">
-          <span className="chat-name">{chat.name}</span>
-          <span className="chat-time">{formatChatTime(chat.lastMessageAt)}</span>
-        </div>
-        
+        <div className="chat-name">{chat.name}</div>
         <div className="chat-preview">
           {chat.lastMessage && (
             <>
@@ -39,6 +35,26 @@ export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) =
             </>
           )}
         </div>
+      </div>
+
+      <div className="chat-actions">
+        <div className="chat-actions-row">
+          <div className="chat-time">{formatChatTime(chat.lastMessageAt)}</div>
+          <button className="action-icon" type="button" aria-label="Favorite">
+            <img src={heartIcon} alt="Favorite" />
+          </button>
+        </div>
+        <div className="chat-actions-row">
+          <button className="action-icon" type="button" aria-label="Mute">
+            <img src={muteIcon} alt="Mute" />
+          </button>
+          <button className="action-icon" type="button" aria-label="Pinned">
+            <img src={pinIcon} alt="Pinned" />
+          </button>
+        </div>
+        <button className="action-icon" type="button" aria-label="More options">
+          <img src={threeDotIcon} alt="More" />
+        </button>
       </div>
     </div>
   );

@@ -5,6 +5,10 @@ import { messageApi } from '../../services/api/messageApi';
 import { signalRService } from '../../services/signalR/signalRService';
 import { MessageList } from './MessageList';
 import { MessageInput } from './MessageInput';
+import socialActionIcon from '../../assets/icons/SocialAction.svg';
+import mute2Icon from '../../assets/icons/mute2.svg';
+import socialActionSetIcon from '../../assets/icons/SocialActionsSet.svg';
+import threeDotMenuIcon from '../../assets/icons/ThreeDotMenu.svg';
 import type { MessageDto } from '../../types/message.types';
 
 export const ChatWindow = () => {
@@ -93,7 +97,7 @@ export const ChatWindow = () => {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <div className="chat-header-info">
+        <div className="chat-header-left">
           <div className="chat-header-avatar">
             {currentChat.members.length > 0 && currentChat.members[0].avatarUrl ? (
               <img src={currentChat.members[0].avatarUrl} alt={currentChat.name} />
@@ -104,21 +108,28 @@ export const ChatWindow = () => {
           <div className="chat-header-text">
             <div className="chat-header-name">{currentChat.name}</div>
             <div className="chat-header-subtitle">
-              {currentChat.type === 'Group'
-                ? `Group Chat with ${currentChat.members.length} Users`
-                : 'Private Chat'}
+              {currentChat.type === 'Group' ? (
+                <>
+                  Group Chat with <span className="user-count">{currentChat.members.length} Users</span>
+                </>
+              ) : (
+                'Private Chat'
+              )}
             </div>
           </div>
         </div>
-        <div className="chat-header-actions">
-          <button className="header-icon" type="button" aria-label="Add member">
-            +
+        <div className="chat-header-right">
+          <button className="header-icon" type="button" aria-label="Social action">
+            <img src={socialActionIcon} alt="Social action" />
           </button>
           <button className="header-icon" type="button" aria-label="Mute">
-            +
+            <img src={mute2Icon} alt="Mute" />
           </button>
-          <button className="header-icon" type="button" aria-label="Settings">
-            +
+          <button className="header-icon" type="button" aria-label="Social actions set">
+            <img src={socialActionSetIcon} alt="Social actions" />
+          </button>
+          <button className="header-icon" type="button" aria-label="More">
+            <img src={threeDotMenuIcon} alt="More" />
           </button>
         </div>
       </div>

@@ -8,8 +8,10 @@ interface MessageProps {
 
 export const Message = ({ message }: MessageProps) => {
   if (message.type === MESSAGE_TYPE_SYSTEM) {
+    const isAddedMessage = message.content.toLowerCase().includes('added') || 
+                           message.content.toLowerCase().includes('добавил');
     return (
-      <div className="message message-system">
+      <div className={`message message-system ${isAddedMessage ? 'message-system-added' : ''}`}>
         <div className="system-message-content">{message.content}</div>
       </div>
     );
@@ -37,12 +39,10 @@ export const Message = ({ message }: MessageProps) => {
           </div>
         )}
       </div>
-      <div className="message-content-wrapper">
+      <div className="message-content">
         <div className="message-sender">{message.userName || 'Unknown'}</div>
-        <div className="message-content">
-          <div className="message-text">{message.content}</div>
-          <div className="message-time">{formatMessageTime(message.createdAt)}</div>
-        </div>
+        <div className="message-text">{message.content}</div>
+        <div className="message-time">{formatMessageTime(message.createdAt)}</div>
       </div>
     </div>
   );
