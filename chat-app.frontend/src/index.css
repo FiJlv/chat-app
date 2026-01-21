@@ -68,8 +68,16 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 4px;
   background-color: #1474B8;
+}
+
+.chat-tab.active:first-child::after {
+  left: 8px;
+}
+
+.chat-tab.active:last-child::after {
+  right: 8px;
 }
 
 /* Search Bar */
@@ -112,10 +120,11 @@ body {
 }
 
 .new-chat-icon {
-  background: none;
+  background-color: #28293D;
+  padding: 8px;
   border: none;
   cursor: pointer;
-  padding: 0;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -460,8 +469,9 @@ body {
 }
 
 .chat-header-subtitle {
-  font-size: 13px;
-  color: #B2B2B2;
+  font-size: 11px;
+  color: #FFFFFF;
+  font-weight: 600;
 }
 
 .chat-header-subtitle .user-count {
@@ -481,7 +491,7 @@ body {
 }
 
 .header-icon {
-  background: none;
+  background-color: #28293D;
   border: none;
   cursor: pointer;
   padding: 8px;
@@ -502,6 +512,14 @@ body {
 .header-icon:hover {
   opacity: 0.7;
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chat-header-right .header-icon:nth-child(2) {
+  background-color: rgba(239, 68, 68, 0.3);
+}
+
+.chat-header-right .header-icon:nth-child(2):hover {
+  background-color: rgba(239, 68, 68, 0.5);
 }
 
 /* Message Input */
@@ -526,14 +544,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
 }
 
 .input-icon img {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 .input-icon:hover {
@@ -684,6 +702,7 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  border: 2px solid #00DA7B;
   overflow: hidden;
 }
 
@@ -733,18 +752,27 @@ body {
   border: 1px solid #00CCFF;
 }
 
+.system-message-user-name {
+  color: #00CCFF;
+  font-weight: 600;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #151515;
+  background: #0C212F;
+  margin-top: 150px;
+  margin-bottom: 150px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3b82f6;
-  border-radius: 3px;
+  background: #00CCFF;
+  border-radius: 1.5px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
