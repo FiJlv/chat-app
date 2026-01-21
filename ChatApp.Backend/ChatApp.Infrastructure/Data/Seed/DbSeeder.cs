@@ -32,6 +32,7 @@ public static class DbSeeder
         {
             Name = "Somnium Global",
             Type = ChatType.Group,
+            AvatarUrl = "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=300&q=60",
             CreatedAt = DateTime.UtcNow.AddDays(-30),
             UpdatedAt = DateTime.UtcNow.AddDays(-1),
             LastMessageAt = DateTime.UtcNow.AddHours(-2)
@@ -41,6 +42,7 @@ public static class DbSeeder
         {
             Name = "Group Chat 01",
             Type = ChatType.Group,
+            AvatarUrl = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=300&q=60",
             CreatedAt = DateTime.UtcNow.AddDays(-20),
             UpdatedAt = DateTime.UtcNow.AddHours(-5),
             LastMessageAt = DateTime.UtcNow.AddHours(-5)
@@ -50,6 +52,7 @@ public static class DbSeeder
         {
             Name = "Group Chat 02",
             Type = ChatType.Group,
+            AvatarUrl = "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=60",
             CreatedAt = DateTime.UtcNow.AddDays(-15),
             UpdatedAt = DateTime.UtcNow.AddMinutes(-30),
             LastMessageAt = DateTime.UtcNow.AddMinutes(-30)
@@ -59,6 +62,7 @@ public static class DbSeeder
         {
             Name = "Team Project",
             Type = ChatType.Group,
+            AvatarUrl = "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=300&q=60",
             CreatedAt = DateTime.UtcNow.AddDays(-10),
             UpdatedAt = DateTime.UtcNow.AddHours(-1),
             LastMessageAt = DateTime.UtcNow.AddHours(-1)

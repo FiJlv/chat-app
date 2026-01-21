@@ -3,6 +3,7 @@ import type { UserDto } from './user.types';
 export interface ChatDto {
   id: number;
   name: string;
+  avatarUrl?: string;
   type: string;
   lastMessage?: string;
   lastMessageAt?: string;

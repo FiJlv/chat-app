@@ -1,5 +1,4 @@
 import { useAuth } from '../../context/AuthContext';
-import { getChatAvatarMember } from '../../utils/chatAvatar';
 import type { ChatDto } from '../../types/chat.types';
 import { formatChatTime } from '../../utils/dateFormatter';
 import heartIcon from '../../assets/icons/heart.svg';
@@ -15,7 +14,13 @@ interface ChatListItemProps {
 
 export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) => {
   const { user } = useAuth();
-  const avatarMember = getChatAvatarMember(chat, user);
+
+  const otherMember = chat.type === 'Private' && user
+    ? chat.members.find(m => m.id !== user.id)
+    : null;
+  
+  const chatAvatarUrl = chat.avatarUrl || otherMember?.avatarUrl;
+  const placeholderLetter = (otherMember?.name || chat.name).charAt(0);
 
   return (
     <div
@@ -23,11 +28,11 @@ export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) =
       onClick={onClick}
     >
       <div className="chat-avatar">
-        {avatarMember?.avatarUrl ? (
-          <img src={avatarMember.avatarUrl} alt={avatarMember.name || chat.name} />
+        {chatAvatarUrl ? (
+          <img src={chatAvatarUrl} alt={otherMember?.name || chat.name} />
         ) : (
           <div className="avatar-placeholder">
-            {(avatarMember?.name || chat.name).charAt(0)}
+            {placeholderLetter}
           </div>
         )}
         {chat.unreadCount > 0 && (

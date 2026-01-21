@@ -6,6 +6,7 @@ public class Chat
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string? AvatarUrl { get; set; }
     public ChatType Type { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
