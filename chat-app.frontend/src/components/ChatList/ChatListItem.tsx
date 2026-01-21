@@ -1,4 +1,6 @@
 import { useAuth } from '../../context/AuthContext';
+import { useChat } from '../../context/ChatContext';
+import { chatApi } from '../../services/api/chatApi';
 import type { ChatDto } from '../../types/chat.types';
 import { formatChatTime } from '../../utils/dateFormatter';
 import heartIcon from '../../assets/icons/heart.svg';
@@ -14,6 +16,7 @@ interface ChatListItemProps {
 
 export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) => {
   const { user } = useAuth();
+  const { updateChat } = useChat();
 
   const otherMember = chat.type === 'Private' && user
     ? chat.members.find(m => m.id !== user.id)
@@ -21,6 +24,16 @@ export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) =
   
   const chatAvatarUrl = chat.avatarUrl || otherMember?.avatarUrl;
   const placeholderLetter = (otherMember?.name || chat.name).charAt(0);
+
+  const handleFavoriteClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    try {
+      const updatedChat = await chatApi.toggleFavorite(chat.id);
+      updateChat(chat.id, { isFavorite: updatedChat.isFavorite });
+    } catch (error) {
+      console.error('Failed to toggle favorite:', error);
+    }
+  };
 
   return (
     <div
@@ -60,6 +73,7 @@ export const ChatListItem = ({ chat, isSelected, onClick }: ChatListItemProps) =
             className={`action-icon ${chat.isFavorite ? 'favorite' : ''}`} 
             type="button" 
             aria-label="Favorite"
+            onClick={handleFavoriteClick}
           >
             <img src={heartIcon} alt="Favorite" />
           </button>

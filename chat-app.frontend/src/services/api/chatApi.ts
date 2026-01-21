@@ -26,4 +26,9 @@ export const chatApi = {
     const response = await apiClient.post<ChatDto>('/chats', dto);
     return response.data;
   },
+
+  toggleFavorite: async (id: number): Promise<ChatDto> => {
+    const response = await apiClient.patch<ChatDto>(`/chats/${id}/favorite`);
+    return response.data;
+  },
 };

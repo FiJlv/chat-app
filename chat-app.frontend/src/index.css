@@ -323,7 +323,8 @@ body {
 }
 
 .action-icon.favorite img {
-  filter: brightness(0) invert(1);
+  filter: brightness(0) saturate(100%) invert(27%) sepia(95%) saturate(7471%) hue-rotate(346deg) brightness(98%) contrast(96%);
+  opacity: 1;
 }
 
 .chat-actions > .action-icon:last-child {
@@ -561,6 +562,7 @@ body {
 .send-button img {
   width: 20px;
   height: 20px;
+  margin: 3px 1px 0px 0px;
 }
 
 .message-input-field {

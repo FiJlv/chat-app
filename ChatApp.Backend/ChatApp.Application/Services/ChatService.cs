@@ -151,4 +151,22 @@ public class ChatService : IChatService
 
         return chatDto;
     }
+
+    public async Task<bool> ToggleFavoriteAsync(int chatId, int userId)
+    {
+        var chat = await _chatRepository.GetByIdAsync(chatId);
+        if (chat == null)
+        {
+            return false;
+        }
+
+        var userMember = chat.Members.FirstOrDefault(m => m.UserId == userId);
+        if (userMember == null)
+        {
+            return false;
+        }
+
+        var newFavoriteStatus = !userMember.IsFavorite;
+        return await _chatRepository.UpdateFavoriteStatusAsync(chatId, userId, newFavoriteStatus);
+    }
 }

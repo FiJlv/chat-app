@@ -11,4 +11,5 @@ public interface IChatRepository
     Task<Chat> CreateAsync(Chat chat);
     Task<Chat> UpdateAsync(Chat chat);
     Task<Message?> GetLastMessageAsync(int chatId);
+    Task<bool> UpdateFavoriteStatusAsync(int chatId, int userId, bool isFavorite);
 }

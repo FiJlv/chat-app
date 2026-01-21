@@ -83,4 +83,19 @@ public class ChatRepository : IChatRepository
             .OrderByDescending(m => m.CreatedAt)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<bool> UpdateFavoriteStatusAsync(int chatId, int userId, bool isFavorite)
+    {
+        var member = await _context.ChatMembers
+            .FirstOrDefaultAsync(m => m.ChatId == chatId && m.UserId == userId);
+        
+        if (member == null)
+        {
+            return false;
+        }
+
+        member.IsFavorite = isFavorite;
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

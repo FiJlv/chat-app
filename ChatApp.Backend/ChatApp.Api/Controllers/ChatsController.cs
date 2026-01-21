@@ -75,4 +75,23 @@ public class ChatsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPatch("{id}/favorite")]
+    public async Task<IActionResult> ToggleFavorite(int id)
+    {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        if (currentUser == null)
+        {
+            return Unauthorized("User not found");
+        }
+
+        var success = await _chatService.ToggleFavoriteAsync(id, currentUser.Id);
+        if (!success)
+        {
+            return NotFound($"Chat with id {id} not found or access denied");
+        }
+
+        var updatedChat = await _chatService.GetChatByIdAsync(id, currentUser.Id);
+        return Ok(updatedChat);
+    }
 }
