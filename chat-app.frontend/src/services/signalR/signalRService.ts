@@ -12,7 +12,9 @@ class SignalRService {
     }
 
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl(SIGNALR_HUB_URL)
+      .withUrl(SIGNALR_HUB_URL, {
+        withCredentials: true
+      })
       .withAutomaticReconnect()
       .build();
 

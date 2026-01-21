@@ -41,7 +41,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -88,7 +91,7 @@ else
     app.UseHttpsRedirection();
 }
 
-app.UseCors();
+app.UseCors("ReactApp");
 
 app.UseAuthorization();
 
